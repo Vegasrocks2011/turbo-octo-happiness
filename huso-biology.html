@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Olympiad Biology — revision and practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1EC;
+  --card:#F7F9F5;
+  --ink:#1B2B24;
+  --muted:#5B6B62;
+  --rule:#CFD8CE;
+  --green:#2F6B4F;
+  --amber:#A85F18;
+  --slate:#41627C;
+  --mark:#E6EDE4;
+  --shadow:rgba(27,43,36,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131A16;
+    --card:#1A231E;
+    --ink:#E4EBE4;
+    --muted:#9AAA9F;
+    --rule:#2E3B33;
+    --green:#7FBF9B;
+    --amber:#E0A160;
+    --slate:#8FB4CE;
+    --mark:#22302A;
+    --shadow:rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131A16; --card:#1A231E; --ink:#E4EBE4; --muted:#9AAA9F;
+  --rule:#2E3B33; --green:#7FBF9B; --amber:#E0A160; --slate:#8FB4CE;
+  --mark:#22302A; --shadow:rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.65;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,.ui{font-family:"IBM Plex Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+a{color:var(--green)}
+
+/* ---------- masthead ---------- */
+header.top{
+  border-bottom:1px solid var(--rule); background:var(--card);
+}
+.top-inner{max-width:1180px; margin:0 auto; padding:26px 22px 22px}
+h1{font-size:1.5rem; font-weight:600; margin:0 0 4px; letter-spacing:-.01em}
+.sub{color:var(--muted); font-size:.95rem; margin:0 0 20px; max-width:60ch}
+
+.controls{display:flex; flex-wrap:wrap; gap:22px; align-items:flex-end}
+.ctrl-label{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.74rem; color:var(--muted);
+  display:block; margin-bottom:6px;
+}
+.segmented{display:flex; border:1px solid var(--rule); border-radius:3px; overflow:hidden}
+.segmented button{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.84rem; padding:7px 13px;
+  background:transparent; color:var(--ink); border:0; cursor:pointer; border-right:1px solid var(--rule);
+}
+.segmented button:last-child{border-right:0}
+.segmented button[aria-pressed="true"]{background:var(--green); color:var(--card)}
+.segmented button:focus-visible{outline:2px solid var(--slate); outline-offset:-2px}
+
+.meter{font-family:"IBM Plex Sans",sans-serif; font-size:.84rem; color:var(--muted)}
+.meter strong{color:var(--ink); font-weight:600}
+.linkbtn{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.8rem; background:none; border:0;
+  color:var(--muted); text-decoration:underline; cursor:pointer; padding:0;
+}
+
+/* ---------- key ---------- */
+.key{
+  max-width:1180px; margin:0 auto; padding:18px 22px 0;
+  display:flex; flex-wrap:wrap; gap:18px;
+}
+.key-item{display:flex; gap:9px; align-items:flex-start; font-size:.87rem; max-width:31ch}
+.chip{
+  flex:none; margin-top:4px; width:12px; height:12px; border-radius:2px;
+}
+.chip.known{background:var(--slate)}
+.chip.quick{background:var(--green)}
+.chip.hard{background:var(--amber)}
+.key-item span{color:var(--muted)}
+.key-item b{font-family:"IBM Plex Sans",sans-serif; font-size:.8rem; font-weight:600; color:var(--ink); display:block}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px; margin:0 auto; padding:26px 22px 80px; display:grid; grid-template-columns:230px 1fr; gap:44px}
+nav.toc{position:sticky; top:20px; align-self:start; max-height:calc(100vh - 40px); overflow-y:auto}
+nav.toc ol{list-style:none; margin:0; padding:0; counter-reset:t}
+nav.toc li{counter-increment:t; margin-bottom:2px}
+nav.toc a{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.84rem; text-decoration:none; color:var(--muted);
+  display:flex; gap:8px; padding:4px 6px; border-radius:3px; line-height:1.35;
+}
+nav.toc a:hover{background:var(--mark); color:var(--ink)}
+nav.toc a::before{content:counter(t); color:var(--rule); flex:none; width:15px; text-align:right; font-variant-numeric:tabular-nums}
+nav.toc a.done{color:var(--green)}
+nav.toc a.done::after{content:"✓"; margin-left:auto; font-size:.75rem}
+
+main{min-width:0; max-width:78ch}
+
+/* ---------- topic ---------- */
+.topic{border-top:1px solid var(--rule); padding:30px 0 34px}
+.topic:first-child{border-top:0; padding-top:4px}
+.topic-head{display:flex; gap:12px; align-items:baseline; margin-bottom:4px}
+.topic h2{font-size:1.16rem; font-weight:600; margin:0; letter-spacing:-.005em}
+.flag{
+  flex:none; width:11px; height:11px; border-radius:2px; transform:translateY(-1px);
+}
+.flag.known{background:var(--slate)}
+.flag.quick{background:var(--green)}
+.flag.hard{background:var(--amber)}
+.flagtext{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.76rem; color:var(--muted);
+  margin:0 0 16px 23px;
+}
+.topic p{margin:0 0 13px}
+.topic ul{margin:0 0 14px; padding-left:20px}
+.topic li{margin-bottom:5px}
+.topic h3{font-size:.9rem; font-weight:600; margin:18px 0 8px; color:var(--muted)}
+em{font-style:italic}
+
+table{border-collapse:collapse; width:100%; margin:6px 0 16px; font-size:.93rem}
+th,td{text-align:left; padding:6px 10px 6px 0; border-bottom:1px solid var(--rule); vertical-align:top}
+th{font-family:"IBM Plex Sans",sans-serif; font-size:.78rem; font-weight:600; color:var(--muted)}
+.tablescroll{overflow-x:auto}
+
+/* extension */
+.ext{
+  border-left:3px solid var(--amber); padding:2px 0 2px 15px; margin:0 0 15px;
+}
+.ext > .extlabel{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.74rem; color:var(--amber);
+  display:block; margin-bottom:6px;
+}
+body.tier1 [data-tier="2"]{display:none}
+
+/* questions */
+.q{
+  background:var(--card); border:1px solid var(--rule); border-radius:4px;
+  padding:15px 17px; margin:0 0 11px;
+}
+.q > p{margin:0; font-size:.97rem}
+.qnum{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.72rem; color:var(--muted);
+  display:block; margin-bottom:5px;
+}
+details{margin-top:11px}
+summary{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.82rem; color:var(--green);
+  cursor:pointer; width:max-content;
+}
+summary:focus-visible{outline:2px solid var(--slate); outline-offset:3px}
+details[open] summary{color:var(--muted)}
+.ans{
+  margin-top:9px; padding-top:11px; border-top:1px solid var(--rule);
+  font-size:.95rem;
+}
+.ans p{margin:0 0 9px}
+.ans p:last-child{margin:0}
+
+/* done control */
+.done-row{margin-top:20px}
+.done-row label{
+  font-family:"IBM Plex Sans",sans-serif; font-size:.82rem; color:var(--muted);
+  display:inline-flex; gap:8px; align-items:center; cursor:pointer;
+}
+.done-row input{width:15px; height:15px; accent-color:var(--green); cursor:pointer}
+
+/* practice papers */
+.papers{
+  background:var(--card); border:1px solid var(--rule); border-radius:4px;
+  padding:20px 22px; margin-top:34px;
+}
+.papers h2{font-size:1.05rem; margin:0 0 10px}
+.papers p{font-size:.94rem; margin:0 0 12px}
+.papers ul{margin:0; padding-left:20px; font-size:.94rem}
+.papers li{margin-bottom:7px}
+
+footer{
+  max-width:1180px; margin:0 auto; padding:0 22px 50px;
+  font-size:.85rem; color:var(--muted);
+}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:1fr; gap:0; padding-top:18px}
+  nav.toc{position:static; max-height:none; margin-bottom:26px; border-bottom:1px solid var(--rule); padding-bottom:18px}
+  nav.toc ol{columns:2; column-gap:18px}
+  body{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body class="tier1">
+
+<header class="top">
+  <div class="top-inner">
+    <h1>Olympiad Biology</h1>
+    <p class="sub">Everything on the Harvard syllabus, with practice questions in the style the exam actually uses. Work through a topic, then try the questions before you look at the answers.</p>
+    <div class="controls">
+      <div>
+        <span class="ctrl-label" id="tierlab">Your category</span>
+        <div class="segmented" role="group" aria-labelledby="tierlab">
+          <button type="button" id="t1" aria-pressed="true">Years 8–9</button>
+          <button type="button" id="t2" aria-pressed="false">Years 10–11</button>
+        </div>
+      </div>
+      <div>
+        <span class="ctrl-label">Progress</span>
+        <span class="meter"><strong id="count">0</strong> of 16 topics done · <button class="linkbtn" id="reset" type="button">clear</button></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="key">
+  <div class="key-item"><span class="chip known"></span><span><b>You've met this</b>It's in your lessons. Check you can still do it.</span></div>
+  <div class="key-item"><span class="chip quick"></span><span><b>New but quick</b>Not in your course. An evening will cover it.</span></div>
+  <div class="key-item"><span class="chip hard"></span><span><b>New and demanding</b>Give this the most time.</span></div>
+</div>
+
+<div class="wrap">
+
+<nav class="toc" aria-label="Contents">
+  <ol id="toclist">
+    <li><a href="#t-biochem">Biological molecules</a></li>
+    <li><a href="#t-dogma">DNA, RNA and protein</a></li>
+    <li><a href="#t-cell">The cell</a></li>
+    <li><a href="#t-division">Cell division</a></li>
+    <li><a href="#t-photo">Photosynthesis</a></li>
+    <li><a href="#t-resp">Cellular respiration</a></li>
+    <li><a href="#t-tissue">Animal tissues</a></li>
+    <li><a href="#t-digest">Digestive system</a></li>
+    <li><a href="#t-breath">Respiratory system</a></li>
+    <li><a href="#t-excrete">Excretory system</a></li>
+    <li><a href="#t-nerve">Nervous system</a></li>
+    <li><a href="#t-immune">Immune system</a></li>
+    <li><a href="#t-endo">Endocrine system</a></li>
+    <li><a href="#t-circ">Circulatory system</a></li>
+    <li><a href="#t-eco">Ecology</a></li>
+    <li><a href="#t-class">Classification</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- 1 -->
+<section class="topic" id="t-biochem">
+  <div class="topic-head"><span class="flag quick"></span><h2>Biological molecules</h2></div>
+  <p class="flagtext">Partly familiar from food tests — the structural detail is new.</p>
+
+  <p>Carbon sits behind all of it. A carbon atom forms four covalent bonds, so it can build long chains, branches and rings that stay stable. No other common element does this as well, which is why every molecule below has a carbon skeleton.</p>
+
+  <div class="tablescroll">
+  <table>
+    <tr><th>Class</th><th>Built from</th><th>Examples and job</th></tr>
+    <tr><td>Carbohydrates</td><td>Monosaccharides (glucose)</td><td>Starch and glycogen store energy; cellulose builds plant cell walls</td></tr>
+    <tr><td>Lipids</td><td>Glycerol + fatty acids</td><td>Energy store (roughly twice the energy per gram of carbohydrate), insulation, membranes</td></tr>
+    <tr><td>Proteins</td><td>Amino acids joined by peptide bonds</td><td>Enzymes, antibodies, muscle, transport (haemoglobin)</td></tr>
+    <tr><td>Nucleic acids</td><td>Nucleotides (sugar + phosphate + base)</td><td>DNA stores information; RNA carries and translates it</td></tr>
+  </table>
+  </div>
+
+  <p>Two details worth holding onto. In proteins, the order of amino acids determines how the chain folds, and the folded shape determines what the protein can do — which is why heat or extreme pH destroys function. In lipids, a saturated fatty acid has no C=C double bonds and packs straight; an unsaturated one has double bonds that kink the chain.</p>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>Two bacterial species are grown at 37 °C. Species P has far more unsaturated fatty acids in its membrane than species Q. Both are then moved to 15 °C. Predict which survives better, and explain using the structure of the fatty acids.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>P survives better. The double bonds in unsaturated fatty acids put kinks in the hydrocarbon tails, so they cannot pack closely together.</p>
+        <p>At low temperature a membrane made of straight, saturated tails packs tightly and becomes rigid — transport proteins stop working and the membrane can crack. P's kinked tails keep the membrane fluid at 15 °C. The trade-off runs the other way at high temperature, where Q's tighter packing holds the membrane together.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>An enzyme is heated to 80 °C and loses all activity. Chemical analysis afterwards shows the sequence of amino acids is completely unchanged. Explain both observations.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>The sequence is held together by peptide bonds, which are covalent and strong — heat at 80 °C does not break them, so the sequence survives.</p>
+        <p>The three-dimensional shape is held by much weaker hydrogen bonds and ionic interactions between R groups. Heat gives the molecule enough kinetic energy to break these, so the chain unfolds. The active site loses its shape, substrate no longer fits, and activity is lost. The enzyme is denatured, not digested.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="biochem"> Mark this topic done</label></div>
+</section>
+
+<!-- 2 -->
+<section class="topic" id="t-dogma">
+  <div class="topic-head"><span class="flag hard"></span><h2>DNA, RNA and protein</h2></div>
+  <p class="flagtext">The central dogma. New for Years 8–9, and the single densest topic on the syllabus.</p>
+
+  <p>Information flows one way: <strong>DNA → RNA → protein</strong>. DNA holds the instructions, RNA carries a working copy out to the machinery, protein does the job.</p>
+
+  <h3>DNA structure and replication</h3>
+  <p>DNA is a double helix of two nucleotide strands running in opposite directions. Bases pair A–T and C–G, held by hydrogen bonds. Because each base has only one partner, either strand specifies the other.</p>
+  <p>Replication is <em>semi-conservative</em>: the helix unzips, and each old strand acts as a template for a new one. Every daughter molecule ends up with one old strand and one new strand.</p>
+
+  <h3>Transcription</h3>
+  <p>In the nucleus, RNA polymerase reads one strand of DNA and builds a complementary mRNA strand. RNA differs from DNA in three ways: single-stranded, ribose instead of deoxyribose, and uracil instead of thymine.</p>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p><strong>RNA processing.</strong> In eukaryotes the first transcript is not ready to use. Non-coding <em>introns</em> are cut out and the coding <em>exons</em> spliced together. A cap is added to one end and a poly-A tail to the other, both of which protect the molecule and help the ribosome find it. Only then does the mRNA leave the nucleus.</p>
+  </div>
+
+  <h3>Translation</h3>
+  <p>At the ribosome, mRNA is read three bases at a time. Each triplet is a <em>codon</em> specifying one amino acid. A tRNA molecule carrying the matching amino acid has a complementary <em>anticodon</em>, binds to the codon, and its amino acid is joined to the growing chain. Start and stop codons mark the beginning and end.</p>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>Two mutations occur in the same gene. In mutation A a single base is substituted for another. In mutation B a single base is deleted. Both occur near the start of the coding sequence. Explain why B is almost always the more damaging.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>A substitution changes one codon, so at most one amino acid changes. Because several codons can specify the same amino acid, it may change nothing at all, and even when it does the protein often still works.</p>
+        <p>A deletion shifts the reading frame. Every codon after the deletion is read from the wrong starting point, so the entire downstream amino acid sequence is wrong. A stop codon usually appears early by chance, truncating the protein. Near the start of the gene, almost the whole protein is affected.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>In bacteria, ribosomes can begin translating an mRNA molecule while it is still being transcribed. In human cells this is impossible. Give the structural reason.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Bacteria are prokaryotes and have no nuclear envelope. DNA, RNA polymerase and ribosomes all sit in the same cytoplasm, so a ribosome can attach to the leading end of an mRNA while the other end is still being made.</p>
+        <p>Human cells are eukaryotic. Transcription happens inside the nucleus and translation in the cytoplasm, physically separated by the nuclear envelope. The transcript must also be processed before export, so the two processes cannot overlap.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 3 · Years 10–11</span>
+    <p>Mice are fed either a normal diet or one rich in cholesterol. In both groups, the amount of mRNA for the enzyme HMG-CoA reductase is identical. But a western blot shows far less of the enzyme protein itself in the cholesterol-fed mice. What can you conclude, and what can you not conclude?</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>You can conclude that cholesterol reduces the level of the enzyme, and that it does so <em>after</em> transcription — because the mRNA level is unchanged, transcription cannot be what is being suppressed.</p>
+        <p>You cannot conclude <em>which</em> post-transcriptional step is responsible. Less protein with the same mRNA is equally consistent with translation being blocked or with the protein being made normally and then degraded faster. Distinguishing those needs a further experiment, such as measuring how quickly labelled enzyme disappears.</p>
+        <p>This pattern — data that supports one conclusion but leaves two mechanisms open — is very common in olympiad questions. Saying "cannot be determined" is often the correct answer.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="dogma"> Mark this topic done</label></div>
+</section>
+
+<!-- 3 -->
+<section class="topic" id="t-cell">
+  <div class="topic-head"><span class="flag known"></span><h2>The cell</h2></div>
+  <p class="flagtext">Well covered in your lessons. Focus on function rather than naming.</p>
+
+  <p>Cell theory: all living things are made of cells, the cell is the basic unit of life, and all cells come from existing cells.</p>
+
+  <div class="tablescroll">
+  <table>
+    <tr><th>Organelle</th><th>Function</th></tr>
+    <tr><td>Nucleus</td><td>Holds DNA; controls the cell's activities</td></tr>
+    <tr><td>Ribosome</td><td>Site of protein synthesis</td></tr>
+    <tr><td>Rough ER</td><td>Ribosome-studded; makes proteins for export</td></tr>
+    <tr><td>Smooth ER</td><td>Makes lipids; detoxification</td></tr>
+    <tr><td>Golgi apparatus</td><td>Modifies, sorts and packages proteins into vesicles</td></tr>
+    <tr><td>Mitochondrion</td><td>Aerobic respiration; releases ATP</td></tr>
+    <tr><td>Chloroplast</td><td>Photosynthesis (plants only)</td></tr>
+    <tr><td>Lysosome</td><td>Digestive enzymes; breaks down waste and worn-out organelles</td></tr>
+    <tr><td>Vacuole</td><td>Large and permanent in plants — stores cell sap, maintains turgor</td></tr>
+    <tr><td>Cell membrane</td><td>Controls what enters and leaves</td></tr>
+    <tr><td>Cell wall</td><td>Cellulose in plants; rigid support, prevents bursting</td></tr>
+  </table>
+  </div>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p>Three more to know. <strong>Peroxisomes</strong> break down fatty acids and neutralise hydrogen peroxide using catalase. <strong>Centrioles</strong> organise the spindle during animal cell division. The <strong>cytoskeleton</strong> is a network of protein filaments giving shape, anchoring organelles, and driving movement — including the microtubules inside cilia and flagella.</p>
+  </div>
+
+  <h3>Why compartments matter</h3>
+  <p>Membrane-bound organelles let a cell run incompatible reactions at once. Lysosomal enzymes would digest the cell if they were loose in the cytoplasm; the mitochondrion can hold a steep proton gradient because its inner membrane seals it off. Prokaryotes have no such compartments — one reason they stay small.</p>
+
+  <h3>Microscopy</h3>
+  <p>Magnification = image size ÷ actual size. Resolution is the smallest distance at which two points still look separate — a light microscope reaches about 200 nm, an electron microscope about 0.2 nm, which is why organelles like ribosomes were invisible until the 1950s.</p>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>An electron micrograph shows a cell crowded with rough ER, a very large Golgi apparatus, many vesicles near the membrane, and abundant mitochondria. Suggest the cell's function, justifying each feature.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>It secretes protein in quantity — a gland cell such as a pancreatic acinar cell or an antibody-producing plasma cell.</p>
+        <p>Rough ER carries the ribosomes making protein destined for export. The large Golgi modifies and packages that protein. Vesicles near the membrane are carrying it out for release. The mitochondria supply the ATP that protein synthesis and vesicle transport both demand.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>Ciliated epithelium from a trachea is treated with a drug that breaks down microtubules. The cilia remain attached but their coordinated, directional beating is lost. Explain why microtubules are needed for the beat.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>A cilium is built around a core of microtubules. Motor proteins make neighbouring microtubules slide against one another, and because they are anchored at the base this sliding bends the cilium — that bend is the beat.</p>
+        <p>Remove the microtubules and there is nothing to slide, so no coordinated stroke is produced. In a real airway this would stop mucus being swept upwards, leaving trapped dust and bacteria in the lungs.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="cell"> Mark this topic done</label></div>
+</section>
+
+<!-- 4 -->
+<section class="topic" id="t-division">
+  <div class="topic-head"><span class="flag hard"></span><h2>Cell division</h2></div>
+  <p class="flagtext">Years 10–11 only on the syllabus, but Years 8–9 will find the mitosis half straightforward.</p>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p><strong>Mitosis</strong> produces two daughter cells genetically identical to the parent and to each other, both diploid. Stages in order: prophase (chromosomes condense, nuclear envelope breaks down), metaphase (chromosomes line up on the equator), anaphase (sister chromatids pulled to opposite poles), telophase (nuclear envelopes reform), then cytokinesis. Used for growth, repair and asexual reproduction.</p>
+    <p><strong>Meiosis</strong> involves two divisions and produces four genetically different haploid cells — the gametes. Variation comes from two sources: crossing over between homologous chromosomes in prophase I, and independent assortment, where each pair lines up independently of the others.</p>
+    <p>A useful principle for questions: in a tissue where cells divide continuously, the proportion of cells caught in a given stage is proportional to how long that stage lasts.</p>
+  </div>
+  <p data-tier="2" style="display:none"></p>
+  <p><em>Years 8–9:</em> mitosis makes two identical cells for growth and repair; meiosis makes four different sex cells. That is as far as your syllabus goes.</p>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 1 · Years 10–11</span>
+    <p>A student examines a root tip and counts 150 cells: 12 in prophase, 6 in metaphase, 5 in anaphase, 7 in telophase, and the rest in interphase. The full cell cycle for this species lasts 20 hours. Calculate how long the cells spend in mitosis, in minutes.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Cells in mitosis = 12 + 6 + 5 + 7 = 30.</p>
+        <p>Proportion in mitosis = 30 ÷ 150 = 0.20.</p>
+        <p>Cycle length = 20 × 60 = 1200 minutes.</p>
+        <p>Time in mitosis = 0.20 × 1200 = <strong>240 minutes</strong> (4 hours).</p>
+        <p>Show every line of this working. Olympiad mark schemes for calculations often award nothing for a bare answer.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 2 · Years 10–11</span>
+    <p>A drug prevents sister chromatids from separating. At which stage does division arrest, and what would the affected cell look like under a microscope?</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Division arrests at the start of anaphase — the point at which separation would normally occur.</p>
+        <p>The cell would show chromosomes still lined up along the equator, each with two chromatids, with spindle fibres attached but no movement towards the poles. Cells would accumulate in this state, so a treated tissue would show an unusually high proportion of cells that look like metaphase.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="division"> Mark this topic done</label></div>
+</section>
+
+<!-- 5 -->
+<section class="topic" id="t-photo">
+  <div class="topic-head"><span class="flag known"></span><h2>Photosynthesis</h2></div>
+  <p class="flagtext">Thoroughly covered. Practise the graph interpretation.</p>
+
+  <p>carbon dioxide + water → glucose + oxygen, driven by light energy absorbed by chlorophyll.</p>
+  <p>6CO<sub>2</sub> + 6H<sub>2</sub>O → C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub></p>
+  <p>Chlorophyll sits in the chloroplasts and absorbs red and blue light strongly while reflecting green — which is why leaves look green. The glucose made is used in respiration, converted to starch for storage, or built into cellulose.</p>
+
+  <h3>Limiting factors</h3>
+  <p>Light intensity, carbon dioxide concentration and temperature can each limit the rate. On a graph, the rate rises as you increase one factor until something else becomes limiting, then plateaus. The plateau tells you a <em>different</em> factor has become the constraint — raise that one and the plateau moves up.</p>
+
+  <h3>The classic experiments</h3>
+  <ul>
+    <li><strong>Destarch first.</strong> Leave the plant in darkness 24–48 hours so existing starch is used up. Without this, any starch you detect could be left over.</li>
+    <li><strong>Testing a leaf:</strong> boil to kill and burst cells, boil in ethanol to remove chlorophyll, rinse and soften in warm water, add iodine. Blue-black means starch, so photosynthesis happened.</li>
+    <li><strong>Variegated leaf</strong> shows chlorophyll is needed — only the green parts turn blue-black.</li>
+    <li><strong>Soda lime</strong> in a sealed flask removes CO<sub>2</sub>, showing CO<sub>2</sub> is needed.</li>
+  </ul>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>A plant's rate of photosynthesis is measured against light intensity at two carbon dioxide concentrations, 0.04% and 0.40%. Both curves rise and then flatten, but the 0.40% curve flattens at a much higher rate. Explain the shape of both curves.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>On the rising part of each curve, light is the limiting factor — more light means more energy captured, so the rate climbs in proportion.</p>
+        <p>Each curve flattens when light stops being limiting and something else takes over. At 0.04% CO<sub>2</sub> that happens early, because the low CO<sub>2</sub> supply caps the rate. At 0.40% there is far more CO<sub>2</sub> available, so light remains limiting for longer and the plateau sits higher.</p>
+        <p>The fact that raising CO<sub>2</sub> raises the plateau is itself the evidence that CO<sub>2</sub> was the limiting factor at the lower concentration.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>A destarched variegated leaf has a strip of black paper clipped over part of it. After several hours in bright light it is tested with iodine. Sketch which regions turn blue-black, and state the two conclusions the experiment supports.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Only the region that is both green <em>and</em> uncovered turns blue-black. The white regions stay pale whether covered or not, and the covered green region stays pale.</p>
+        <p>Two conclusions: chlorophyll is needed (green photosynthesised, white did not, under identical light), and light is needed (uncovered green photosynthesised, covered green did not, with identical chlorophyll).</p>
+        <p>Each comparison is a controlled one — only one variable differs between the two regions being compared. That is what makes the conclusions valid.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="photo"> Mark this topic done</label></div>
+</section>
+
+<!-- 6 -->
+<section class="topic" id="t-resp">
+  <div class="topic-head"><span class="flag known"></span><h2>Cellular respiration</h2></div>
+  <p class="flagtext">Covered. Be precise about the difference between respiration and breathing.</p>
+
+  <p>Respiration releases energy from glucose in every living cell, all the time. It is a chemical process, not breathing.</p>
+  <ul>
+    <li><strong>Aerobic:</strong> glucose + oxygen → carbon dioxide + water. Happens in the mitochondria. Releases a large amount of energy per glucose molecule.</li>
+    <li><strong>Anaerobic in muscle:</strong> glucose → lactic acid. Small energy yield; lactic acid builds up and causes an oxygen debt that must be repaid.</li>
+    <li><strong>Anaerobic in yeast and plants (fermentation):</strong> glucose → ethanol + carbon dioxide. The basis of brewing and bread-making.</li>
+  </ul>
+
+  <div class="tablescroll">
+  <table>
+    <tr><th></th><th>Photosynthesis</th><th>Respiration</th></tr>
+    <tr><td>Energy</td><td>Absorbs light energy</td><td>Releases chemical energy</td></tr>
+    <tr><td>Gases</td><td>Takes in CO<sub>2</sub>, gives out O<sub>2</sub></td><td>Takes in O<sub>2</sub>, gives out CO<sub>2</sub></td></tr>
+    <tr><td>Where</td><td>Chloroplasts, green cells only</td><td>Mitochondria, all living cells</td></tr>
+    <tr><td>When</td><td>Light only</td><td>Continuously</td></tr>
+    <tr><td>Mass</td><td>Increases</td><td>Decreases</td></tr>
+  </table>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>Yeast is sealed in a flask with a large excess of glucose solution. Carbon dioxide is released rapidly at first, then the rate falls and eventually stops — long before the glucose runs out. Give two reasons.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>First, the oxygen in the sealed flask is used up, so the yeast switches from aerobic respiration to fermentation, which releases far less energy per glucose molecule and supports a much lower rate of activity.</p>
+        <p>Second, ethanol accumulates. Above roughly 15% it is toxic to yeast — it denatures the enzymes and damages membranes — so the population stops respiring even with plenty of substrate left. This is why fermentation alone cannot produce spirits, which need distillation.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>A sealed transparent chamber holds a healthy pot plant with a carbon dioxide sensor. Readings are taken from before dawn until mid-morning. CO<sub>2</sub> rises overnight, keeps rising briefly after first light, then begins to fall. Explain the full pattern.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Overnight there is no light, so no photosynthesis. The plant still respires continuously, so CO<sub>2</sub> accumulates.</p>
+        <p>Just after first light, photosynthesis begins but light intensity is still low, so it proceeds more slowly than respiration. CO<sub>2</sub> is still being produced faster than it is used, and the level keeps rising.</p>
+        <p>As light intensity increases, the two rates become equal — the compensation point, where the sensor reading stops changing. Beyond it photosynthesis outpaces respiration, CO<sub>2</sub> is consumed faster than it is made, and the level falls.</p>
+        <p>The key idea is that respiration never stops. What changes is whether photosynthesis is fast enough to outweigh it.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="resp"> Mark this topic done</label></div>
+</section>
+
+<!-- 7 -->
+<section class="topic" id="t-tissue">
+  <div class="topic-head"><span class="flag quick"></span><h2>Animal tissues</h2></div>
+  <p class="flagtext">Not in your course, but a short topic. Learn the locations.</p>
+
+  <p><strong>Epithelial tissue</strong> covers surfaces and lines cavities — skin, gut lining, airways, blood vessels. Its jobs are protection, and in some places secretion or absorption. You are not required to know the individual types.</p>
+
+  <h3>Muscular tissue</h3>
+  <div class="tablescroll">
+  <table>
+    <tr><th>Type</th><th>Where</th><th>Function</th></tr>
+    <tr><td>Striated (skeletal, voluntary)</td><td>Attached to bones</td><td>Moves the skeleton; under conscious control; powerful but fatigues</td></tr>
+    <tr><td>Unstriated (smooth, involuntary)</td><td>Gut wall, blood vessels, bladder</td><td>Slow sustained contraction; peristalsis; not under conscious control</td></tr>
+    <tr><td>Cardiac</td><td>Heart wall only</td><td>Contracts rhythmically without tiring; generates its own beat</td></tr>
+  </table>
+  </div>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p><strong>Connective tissue</strong> supports and joins. <em>Bone</em> gives rigid support and protection. <em>Cartilage</em> cushions joints and holds airways open. <em>Blood</em> transports — it counts as connective tissue because its cells sit in a matrix (plasma). <em>Ligaments</em> join bone to bone and stabilise joints. <em>Tendons</em> join muscle to bone and transmit the pull of contraction.</p>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>Name the muscle type found in the wall of the small intestine and explain three ways its properties suit the job it does there.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Unstriated (smooth) muscle.</p>
+        <p>It contracts slowly and can stay contracted without fatiguing, which suits the continuous waves of peristalsis that run for hours after a meal. It is involuntary, so digestion continues without conscious attention — you do not have to think about moving food along. And it is arranged in circular and longitudinal layers that contract alternately, producing the wave that pushes food forward rather than a simple squeeze.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 2 · Years 10–11</span>
+    <p>A footballer tears a ligament in the knee. A teammate tears a tendon in the calf. Predict the different consequence in each case, based on what each tissue connects.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>The ligament joins bone to bone, so its job is holding the joint together and limiting how far it can move. Tearing it makes the knee unstable — it gives way sideways and the bones move further than they should, risking cartilage damage.</p>
+        <p>The tendon joins muscle to bone and transmits the force of contraction. Tearing it means the calf muscle can contract but the pull no longer reaches the heel, so the movement it produced — pushing off, standing on tiptoe — is lost even though the muscle itself is undamaged.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="tissue"> Mark this topic done</label></div>
+</section>
+
+<!-- 8 -->
+<section class="topic" id="t-digest">
+  <div class="topic-head"><span class="flag known"></span><h2>Digestive system</h2></div>
+  <p class="flagtext">Well covered. The deficiency diseases may be less familiar.</p>
+
+  <p>Path of food: mouth → oesophagus → stomach → small intestine (duodenum then ileum) → large intestine → rectum → anus.</p>
+
+  <div class="tablescroll">
+  <table>
+    <tr><th>Gland or organ</th><th>Secretion</th><th>Action</th></tr>
+    <tr><td>Salivary glands</td><td>Amylase</td><td>Starch → maltose</td></tr>
+    <tr><td>Stomach wall</td><td>Pepsin, hydrochloric acid</td><td>Protein → peptides; acid kills bacteria and gives pepsin its optimum pH</td></tr>
+    <tr><td>Pancreas</td><td>Amylase, lipase, protease</td><td>Digests all three food groups in the duodenum</td></tr>
+    <tr><td>Liver</td><td>Bile (stored in gall bladder)</td><td>Emulsifies fats and neutralises stomach acid — no enzymes</td></tr>
+    <tr><td>Small intestine wall</td><td>Final enzymes</td><td>Completes digestion to absorbable units</td></tr>
+  </table>
+  </div>
+
+  <p>Absorption happens in the ileum, whose villi give an enormous surface area. Each villus is one cell thick, richly supplied with blood capillaries for sugars and amino acids, and has a lacteal for absorbed fat. The large intestine absorbs water.</p>
+
+  <h3>Nutrition and deficiency</h3>
+  <p>A balanced diet supplies carbohydrates, proteins, fats, vitamins, minerals, water and fibre in the right proportions for age, sex and activity.</p>
+  <ul>
+    <li>Vitamin C — scurvy (bleeding gums, poor wound healing)</li>
+    <li>Vitamin D or calcium — rickets (soft, deformed bones)</li>
+    <li>Vitamin A — night blindness</li>
+    <li>Iron — anaemia (too little haemoglobin, tiredness)</li>
+    <li>Iodine — goitre (swollen thyroid)</li>
+    <li>Protein — kwashiorkor (swollen abdomen, poor growth)</li>
+  </ul>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>Bile contains no enzymes, yet removing the gall bladder makes fatty meals harder to digest. Explain how bile speeds up fat digestion.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Bile salts emulsify fat — they break large fat droplets into many tiny ones. The total volume of fat is unchanged, but the surface area exposed to the surrounding fluid increases enormously.</p>
+        <p>Lipase is water-soluble and can only act at the surface of a droplet. More surface area means more lipase molecules working at once, so digestion is much faster. Bile is a physical treatment that makes the chemical one efficient.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>A patient's pancreatic duct is blocked by a gallstone. Predict which nutrients are poorly digested and explain one visible consequence for the patient.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>All three major groups are affected, because pancreatic juice contains amylase, lipase and protease. Fat is hit hardest, since pancreatic lipase is the main fat-digesting enzyme and there is no backup elsewhere.</p>
+        <p>Undigested fat cannot be absorbed and passes into the large intestine, producing pale, greasy, foul-smelling stools that float. The patient also loses weight despite eating normally, and may become deficient in the fat-soluble vitamins A and D, which need fat absorption to be taken up.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="digest"> Mark this topic done</label></div>
+</section>
+
+<!-- 9 -->
+<section class="topic" id="t-breath">
+  <div class="topic-head"><span class="flag known"></span><h2>Respiratory system</h2></div>
+  <p class="flagtext">Covered. The control of breathing rate catches people out.</p>
+
+  <p>Air path: nose → trachea → bronchi → bronchioles → alveoli.</p>
+  <p><strong>Alveoli</strong> are adapted for gas exchange: a huge total surface area, walls one cell thick for a short diffusion distance, a moist lining so gases dissolve, a dense capillary network to maintain a steep concentration gradient, and constant ventilation to refresh the air.</p>
+
+  <h3>Breathing mechanism</h3>
+  <p>Breathing in: the diaphragm contracts and flattens, the external intercostal muscles pull the ribcage up and out. Thorax volume increases, pressure inside falls below atmospheric, air flows in. Breathing out is largely the reverse and mostly passive at rest.</p>
+
+  <h3>Tissue respiration and heat</h3>
+  <p>Gas exchange at the alveoli supplies oxygen for respiration in the tissues. Respiration is never fully efficient — a large fraction of the energy released appears as heat, which is how mammals maintain body temperature.</p>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>Breathing rate rises sharply during exercise. Most students say this is because the body detects falling oxygen. This is wrong. Identify the actual stimulus and explain how it is detected.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>The stimulus is rising carbon dioxide, not falling oxygen. Working muscles respire faster and produce more CO<sub>2</sub>, which dissolves in blood plasma to form carbonic acid and lowers blood pH.</p>
+        <p>Chemoreceptors — in the medulla and in the walls of the aorta and carotid arteries — detect the fall in pH. The medulla responds by increasing the rate and depth of breathing, so more CO<sub>2</sub> is removed and pH returns to normal.</p>
+        <p>Oxygen receptors do exist, but they only become important when oxygen falls a long way, as at high altitude. In ordinary exercise, CO<sub>2</sub> is the signal. Olympiad questions test exactly this distinction.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>A person breathes 18 times a minute with a tidal volume of 500 cm³. About 150 cm³ of each breath stays in the trachea and bronchi, where no gas exchange occurs. Calculate the volume of fresh air reaching the alveoli each minute, and explain why breathing deeply is more efficient than breathing quickly.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Fresh air per breath reaching alveoli = 500 − 150 = 350 cm³.</p>
+        <p>Per minute = 350 × 18 = <strong>6300 cm³</strong>.</p>
+        <p>The 150 cm³ of dead space is wasted on every single breath, so its cost depends on how many breaths you take. Doubling the rate to 36 shallow breaths of 250 cm³ gives the same total ventilation of 9000 cm³, but only (250 − 150) × 36 = 3600 cm³ reaches the alveoli. Taking fewer, deeper breaths spreads the fixed dead-space cost over less frequent, larger breaths.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="breath"> Mark this topic done</label></div>
+</section>
+
+<!-- 10 -->
+<section class="topic" id="t-excrete">
+  <div class="topic-head"><span class="flag known"></span><h2>Excretory system</h2></div>
+  <p class="flagtext">Mostly covered. Note that nephron structure is explicitly excluded.</p>
+
+  <p>Excretion is the removal of waste made by the body's own chemical reactions. It is not the same as egestion, which is the removal of undigested food that was never part of the body's metabolism.</p>
+
+  <div class="tablescroll">
+  <table>
+    <tr><th>Organ</th><th>Excretes</th></tr>
+    <tr><td>Kidneys</td><td>Urea, excess water, excess salts</td></tr>
+    <tr><td>Lungs</td><td>Carbon dioxide, some water vapour</td></tr>
+    <tr><td>Sweat glands (skin)</td><td>Water, salts, small amounts of urea</td></tr>
+  </table>
+  </div>
+
+  <h3>The renal system</h3>
+  <p>Kidney → ureter → bladder → urethra. The kidneys filter the blood, removing urea, excess water and salts while keeping useful substances. Urine passes down each ureter to the bladder, which stores it, and leaves through the urethra.</p>
+  <p>Urea itself is made in the liver. Excess amino acids cannot be stored, so they are deaminated — the nitrogen-containing part is removed and converted to urea, which the blood carries to the kidneys.</p>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>On a hot day, a person drinks their usual amount of water but produces much less urine, and what they do produce is darker. Explain, and state where in the body the water has gone.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Heat causes sweating, so a large volume of water leaves through the skin. This makes the blood more concentrated.</p>
+        <p>The change is detected in the brain, which releases more ADH. ADH makes the kidney tubules more permeable to water, so more water is reabsorbed back into the blood rather than lost in urine. The result is a small volume of concentrated urine, which looks darker because the same amount of urea and pigment is dissolved in less water.</p>
+        <p>The water has been lost as sweat, not retained — the kidney response is damage limitation, conserving what remains.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>Explain why carbon dioxide leaving the lungs counts as excretion but faeces leaving the anus does not, even though both are waste being removed.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Carbon dioxide is produced by respiration inside the body's own cells. It is a metabolic waste product — the body made it — so removing it is excretion.</p>
+        <p>The bulk of faeces is undigested food, mostly fibre, that was never absorbed into the body's cells. It passed through the gut, which is topologically outside the body, and took no part in metabolism. Removing it is egestion.</p>
+        <p>The dividing line is whether the substance was made by the body's chemistry. Bile pigments in faeces genuinely are excretory, which is why the distinction is about origin rather than route.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="excrete"> Mark this topic done</label></div>
+</section>
+
+<!-- 11 -->
+<section class="topic" id="t-nerve">
+  <div class="topic-head"><span class="flag known"></span><h2>Nervous system</h2></div>
+  <p class="flagtext">Covered. Learn the three brain regions precisely.</p>
+
+  <p>The central nervous system is the brain and spinal cord. Nerves running to and from it make up the peripheral nervous system.</p>
+
+  <div class="tablescroll">
+  <table>
+    <tr><th>Region</th><th>Location</th><th>Function</th></tr>
+    <tr><td>Cerebrum</td><td>Largest part, upper brain</td><td>Thought, memory, reasoning, voluntary movement, interpreting senses</td></tr>
+    <tr><td>Cerebellum</td><td>Beneath the rear of the cerebrum</td><td>Balance, posture, fine coordination of movement</td></tr>
+    <tr><td>Medulla oblongata</td><td>Base of brain, joining spinal cord</td><td>Heart rate, breathing rate, blood pressure, swallowing</td></tr>
+    <tr><td>Spinal cord</td><td>Vertebral column</td><td>Carries impulses to and from the brain; centre for reflexes</td></tr>
+  </table>
+  </div>
+
+  <p><strong>Nerve types.</strong> Sensory nerves carry impulses from receptors to the CNS. Motor nerves carry impulses from the CNS to effectors — muscles and glands. Mixed nerves contain both.</p>
+  <p><strong>Motor neuron structure:</strong> a cell body with branching dendrites, a long axon insulated by a myelin sheath with gaps along it, ending in terminals at the effector. Myelin speeds transmission by letting the impulse jump between gaps.</p>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p><strong>The reflex arc.</strong> A reflex is a rapid, automatic response to a stimulus that protects the body. The sequence is: <em>stimulus → receptor → sensory neuron → relay neuron (in spinal cord) → motor neuron → effector → response.</em> Examples: pulling a hand from a hot surface, the knee-jerk, blinking, the pupil narrowing in bright light.</p>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>Two patients have localised brain damage. Patient A cannot walk steadily and their hand shakes when reaching for a cup, but they understand and speak normally. Patient B has irregular breathing and an unstable heart rate. Identify the damaged region in each.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Patient A has cerebellar damage. The cerebellum coordinates balance and fine movement — it does not initiate movement or handle language, which is why speech and understanding are intact while accuracy and steadiness are lost.</p>
+        <p>Patient B has damage to the medulla oblongata, which controls the involuntary functions of breathing, heart rate and blood pressure. This is far more dangerous, since these processes cannot be consciously maintained.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 2 · Years 10–11</span>
+    <p>You touch a hot pan and pull your hand away before you consciously feel the pain. Explain the order of events, and why the response happens before the sensation.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Heat receptors in the skin detect the stimulus and a sensory neuron carries the impulse to the spinal cord. There a relay neuron passes it straight to a motor neuron, which stimulates the biceps to contract and pull the hand away.</p>
+        <p>The whole arc is completed within the spinal cord — the impulse does not need to travel to the brain and be processed before the response is triggered. A separate impulse does travel up to the brain, which is where the conscious sensation of pain is produced, but that takes longer.</p>
+        <p>The short pathway is the point: fewer synapses and a shorter distance mean the hand moves sooner, limiting the burn.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="nerve"> Mark this topic done</label></div>
+</section>
+
+<!-- 12 -->
+<section class="topic" id="t-immune">
+  <div class="topic-head"><span class="flag quick"></span><h2>Immune system</h2></div>
+  <p class="flagtext">Years 10–11 only. Goes beyond your IGCSE course but is quick to learn.</p>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p><strong>Innate immunity</strong> is present from birth, acts within minutes and treats all invaders the same way. It includes physical barriers (skin, mucus, stomach acid), phagocytes that engulf and digest pathogens, and inflammation.</p>
+    <p><strong>Adaptive immunity</strong> is specific to one pathogen, takes days to develop the first time, and remembers.</p>
+    <ul>
+      <li><strong>B cells</strong> recognise a specific antigen and multiply into plasma cells that secrete antibodies, plus memory cells that persist.</li>
+      <li><strong>T cells</strong> come in two main kinds: helper T cells coordinate the response and activate B cells; cytotoxic T cells destroy the body's own cells once they are infected.</li>
+      <li><strong>Antibodies</strong> bind to a specific antigen. They clump pathogens together, neutralise toxins, and mark pathogens for phagocytes.</li>
+    </ul>
+    <p><strong>Allergy</strong> is the immune system overreacting to something harmless. Common allergens: dust, pollen, house dust mites, certain foods, animal fur. They enter by inhalation, ingestion, skin contact or injection (an insect sting). Symptoms include sneezing, a runny nose, itching, rashes and swelling; a severe whole-body reaction is anaphylaxis, which is a medical emergency.</p>
+  </div>
+  <p>Years 8–9: this topic is not on your syllabus. Skip to the next one.</p>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 1 · Years 10–11</span>
+    <p>Blood samples from an infected mouse are tested for two antibody types. On day 7, IgM is high and IgG absent. On day 28, IgM is absent and IgG is high. Which sample indicates an active, ongoing infection, and what does the day 28 result tell you?</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Day 7 indicates active infection. IgM is the first antibody made after exposure and appears while the infection is still being fought, so its presence points to a current, recent infection.</p>
+        <p>Day 28 shows IgG only, which is made later and persists long after the pathogen is cleared. This indicates past exposure and established immunity rather than ongoing illness. The mouse has recovered.</p>
+        <p>A sample containing both would mark the transition — the infection being cleared but not yet over.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 2 · Years 10–11</span>
+    <p>A vaccine contains a weakened pathogen that cannot cause disease. Explain how it protects against the real pathogen, and why some vaccines need a booster dose.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>The weakened pathogen still carries the same antigens. B cells that recognise those antigens are activated, multiply, and produce antibodies — and crucially they also produce memory cells, which remain in the body afterwards.</p>
+        <p>If the real pathogen arrives later, the memory cells recognise it immediately and produce a much faster and larger antibody response than the first time. The pathogen is destroyed before it can multiply enough to cause symptoms.</p>
+        <p>Boosters are needed because memory cell numbers decline over time. A second dose re-stimulates them, raising both the number of memory cells and the antibody level, and extending protection for longer.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="immune"> Mark this topic done</label></div>
+</section>
+
+<!-- 13 -->
+<section class="topic" id="t-endo">
+  <div class="topic-head"><span class="flag quick"></span><h2>Endocrine system</h2></div>
+  <p class="flagtext">Years 10–11. Four glands to learn in table form — straightforward marks.</p>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p><strong>Exocrine glands</strong> release their secretion through a duct onto a surface or into a cavity — salivary glands, sweat glands, the pancreas releasing digestive juice. <strong>Endocrine glands</strong> are ductless and release hormones directly into the blood.</p>
+    <p>A <em>hormone</em> is a chemical messenger, made in an endocrine gland, carried in the blood, acting on specific target organs.</p>
+
+    <div class="tablescroll">
+    <table>
+      <tr><th>Gland</th><th>Location</th><th>Secretion</th><th>Function</th></tr>
+      <tr><td>Thyroid</td><td>Neck, in front of the windpipe</td><td>Thyroxine</td><td>Controls metabolic rate; needed for growth and development</td></tr>
+      <tr><td>Adrenal</td><td>One above each kidney</td><td>Adrenaline</td><td>Prepares the body for action — raises heart rate, breathing rate and blood glucose</td></tr>
+      <tr><td>Pancreas</td><td>Behind the stomach</td><td>Insulin and glucagon</td><td>Regulates blood glucose; insulin lowers it, glucagon raises it</td></tr>
+      <tr><td>Pituitary</td><td>Base of the brain</td><td>Growth hormone, ADH and others</td><td>Controls growth, water balance, and the activity of other endocrine glands</td></tr>
+    </table>
+    </div>
+  </div>
+  <p>Years 8–9: not on your syllabus. Move on.</p>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 1 · Years 10–11</span>
+    <p>Compare nervous and hormonal coordination under three headings: how the message travels, how fast it acts, and how long the effect lasts. Then explain why adrenaline uses the hormonal route despite being needed urgently.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Nervous: electrical impulses along neurons, to a precise target; acts in milliseconds; the effect is brief. Hormonal: chemicals in the blood, reaching every tissue but only affecting cells with the right receptors; acts in seconds to minutes; the effect is longer-lasting.</p>
+        <p>Adrenaline needs to act on many organs at once — heart, lungs, liver, blood vessels, pupils — and to keep acting for the whole period of danger. A nervous signal would reach each target separately and stop as soon as impulses stopped. Releasing a hormone into the blood coordinates every target simultaneously with one signal, and the effect persists while the hormone circulates. Speed is traded for reach and duration.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q" data-tier="2">
+    <span class="qnum">Question 2 · Years 10–11</span>
+    <p>A population living far inland, eating no seafood and using non-iodised salt, shows a high rate of visible neck swelling. Explain the link between the diet and the symptom.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Iodine is a component of thyroxine. Without dietary iodine the thyroid cannot make enough thyroxine, so blood thyroxine levels fall.</p>
+        <p>The pituitary detects this and secretes more thyroid-stimulating hormone, driving the thyroid to work harder. The gland enlarges in response but still cannot produce thyroxine without the raw material, so it keeps being stimulated and keeps growing. The swelling in the neck is this enlarged thyroid — a goitre.</p>
+        <p>Adding iodine to table salt is the standard public health remedy, which is why the detail about non-iodised salt is in the question.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="endo"> Mark this topic done</label></div>
+</section>
+
+<!-- 14 -->
+<section class="topic" id="t-circ">
+  <div class="topic-head"><span class="flag known"></span><h2>Circulatory system</h2></div>
+  <p class="flagtext">Covered, except blood groups — those are worth learning properly.</p>
+
+  <h3>Inside the heart</h3>
+  <p>Four chambers: two atria above, two ventricles below, separated left from right by the septum, which prevents oxygenated and deoxygenated blood mixing.</p>
+  <p>Atrioventricular valves lie between each atrium and ventricle — tricuspid on the right, bicuspid on the left. Semilunar valves sit at the exits into the pulmonary artery and aorta. All of them are one-way, preventing backflow.</p>
+  <p>The left ventricle wall is much thicker than the right.</p>
+
+  <h3>Double circulation</h3>
+  <p>Blood passes through the heart twice per circuit. The pulmonary circuit carries blood to the lungs and back; the systemic circuit carries it to the rest of the body and back. This keeps oxygenated and deoxygenated blood separate and allows each circuit its own pressure.</p>
+
+  <div class="tablescroll">
+  <table>
+    <tr><th>Vessel</th><th>Carries blood</th><th>Note</th></tr>
+    <tr><td>Vena cava</td><td>Body → right atrium</td><td>Deoxygenated</td></tr>
+    <tr><td>Pulmonary trunk / artery</td><td>Right ventricle → lungs</td><td>The only artery carrying deoxygenated blood</td></tr>
+    <tr><td>Pulmonary vein</td><td>Lungs → left atrium</td><td>The only vein carrying oxygenated blood</td></tr>
+    <tr><td>Aorta</td><td>Left ventricle → body</td><td>Highest pressure in the system</td></tr>
+    <tr><td>Coronary artery and vein</td><td>Supply the heart muscle itself</td><td>Blockage causes a heart attack</td></tr>
+  </table>
+  </div>
+
+  <h3>Blood groups</h3>
+  <p>Four groups, determined by which antigens sit on the red blood cells. Group A has antigen A and anti-B antibodies in the plasma; group B has antigen B and anti-A antibodies; group AB has both antigens and neither antibody; group O has neither antigen and both antibodies.</p>
+  <p><strong>O is the universal donor</strong> — no antigens for the recipient's antibodies to attack. <strong>AB is the universal recipient</strong> — no antibodies to attack incoming cells.</p>
+
+  <div class="ext" data-tier="2">
+    <span class="extlabel">Years 10–11</span>
+    <p><strong>Heart conditions.</strong> Palpitations are an awareness of an irregular or unusually forceful heartbeat. Cardiac arrest is the heart stopping effectively, so circulation ceases. Hypertension is persistently raised blood pressure, which damages artery walls and increases the risk of stroke and heart attack.</p>
+    <p><strong>The lymphatic system</strong> runs alongside the blood system. Fluid forced out of capillaries is collected as lymph, filtered through lymph nodes where pathogens are removed, and returned to the blood near the heart. It also absorbs digested fat from the lacteals in the villi.</p>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>The left ventricle wall is roughly three times thicker than the right. Explain why, and explain why it would be dangerous for the right ventricle to be equally thick.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>The left ventricle pumps blood through the systemic circuit — the entire body, including up to the head and down to the feet. This is a long, high-resistance path, so it needs a high pressure and therefore a thick, muscular wall.</p>
+        <p>The right ventricle only pumps to the lungs, which are close by and offer low resistance. Less force is needed, so a thinner wall suffices.</p>
+        <p>An equally thick right ventricle would be actively harmful. The alveolar capillaries are extremely delicate, one cell thick, and sit against thin alveolar walls. Systemic-level pressure would rupture them and force fluid into the alveoli, flooding the lungs. The asymmetry is a requirement, not an accident.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>A patient with group A blood is accidentally transfused with group B. Explain what happens in terms of antigens and antibodies, and state why the reverse error — group A blood given to a group AB patient — causes no reaction.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>The group A patient's plasma contains anti-B antibodies. The donated group B cells carry antigen B on their surface. The antibodies bind to those antigens and clump the donated cells together — agglutination — which blocks small blood vessels and causes the cells to break down, releasing haemoglobin. This can be fatal.</p>
+        <p>A group AB recipient has both antigens on their own cells, so they produce neither anti-A nor anti-B antibodies. Incoming group A cells meet nothing that will bind them, so no agglutination occurs. This is why AB is the universal recipient.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="circ"> Mark this topic done</label></div>
+</section>
+
+<!-- 15 -->
+<section class="topic" id="t-eco">
+  <div class="topic-head"><span class="flag known"></span><h2>Ecology</h2></div>
+  <p class="flagtext">Covered. Practise reasoning through food webs rather than reciting definitions.</p>
+
+  <p>An ecosystem is a community of organisms together with the non-living surroundings they interact with. Biotic factors are the living components; abiotic factors are physical and chemical — light, temperature, humidity, wind, water availability, soil type, pH.</p>
+
+  <ul>
+    <li><strong>Producers</strong> make their own food by photosynthesis and form the base of every food chain.</li>
+    <li><strong>Consumers</strong> eat other organisms — primary consumers eat producers, secondary consumers eat primary consumers, and so on.</li>
+    <li><strong>Decomposers</strong> break down dead material and release nutrients back into the soil. Without them, nutrients would stay locked in dead matter.</li>
+  </ul>
+
+  <p>A <strong>food chain</strong> shows one path of energy transfer; arrows point in the direction energy flows, from eaten to eater. A <strong>food web</strong> shows the interconnected chains in a real community. A <strong>pyramid of numbers</strong> shows how many organisms occupy each level.</p>
+
+  <h3>Relationships between organisms</h3>
+  <ul>
+    <li><strong>Symbiosis (mutualism):</strong> both species benefit — bees and flowering plants.</li>
+    <li><strong>Parasitism:</strong> one benefits at the other's expense, usually without killing it — a tapeworm in a gut.</li>
+    <li><strong>Predation:</strong> one organism kills and eats another.</li>
+    <li><strong>Competition:</strong> two organisms need the same limited resource.</li>
+  </ul>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>In an oak woodland, a pyramid of numbers for the chain oak tree → caterpillars → blue tits → sparrowhawks is inverted at the first level. Explain why, and explain why a pyramid of biomass for the same chain would not be inverted.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>A pyramid of numbers counts individuals regardless of size. A single oak tree supports thousands of caterpillars, so the producer bar is narrower than the primary consumer bar above it and the pyramid is inverted at the base.</p>
+        <p>A pyramid of biomass measures the total mass of living material at each level. One oak has an enormous mass — far greater than all the caterpillars feeding on it combined — so the base is the widest bar and the normal pyramid shape is restored.</p>
+        <p>The general point: inverted pyramids of numbers appear whenever organisms at one level are very much larger than those at the next. Biomass reflects the energy actually available, which is why it gives the more reliable shape.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>On a rocky shore, a starfish preys on mussels, limpets and barnacles. Mussels are the strongest competitors for space. All the starfish are removed. Predict what happens to the number of species on the shore, and explain.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>The number of species falls sharply.</p>
+        <p>With the predator gone, the mussel population is no longer controlled and grows rapidly. Because mussels are the strongest competitors for space, they spread over the rock and crowd out limpets, barnacles and the other species that depended on bare rock. Those species decline and several disappear from the shore altogether.</p>
+        <p>The starfish was a keystone predator — by preferentially cropping the dominant competitor it kept space available and allowed weaker competitors to survive. Removing a predator can reduce diversity rather than increase it, which is the counter-intuitive result being tested.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="eco"> Mark this topic done</label></div>
+</section>
+
+<!-- 16 -->
+<section class="topic" id="t-class">
+  <div class="topic-head"><span class="flag quick"></span><h2>Classification</h2></div>
+  <p class="flagtext">The five kingdoms are familiar; the detail on Amoeba and mould is not. Learn those two properly.</p>
+
+  <p>Classification groups organisms by shared characteristics. It matters because it organises an otherwise unmanageable diversity, makes identification possible, reflects evolutionary relationships, and gives every species one universally understood name.</p>
+
+  <h3>The five kingdoms</h3>
+  <p><strong>Monera</strong> — bacteria. Prokaryotic: no nucleus, no membrane-bound organelles. They have ribosomes and a single circular DNA molecule. Shapes: spherical cocci, rod-shaped bacilli, spiral spirilla, comma-shaped vibrio. Many move using flagella.</p>
+
+  <p><strong>Protista</strong> — single-celled eukaryotes. <em>Amoeba</em> is the example to know in detail:</p>
+  <ul>
+    <li><em>Locomotion:</em> extends pseudopodia — temporary projections of cytoplasm — and flows into them.</li>
+    <li><em>Nutrition:</em> surrounds food with pseudopodia and encloses it in a food vacuole, where enzymes digest it.</li>
+    <li><em>Respiration:</em> oxygen diffuses in across the cell membrane; its large surface-area-to-volume ratio makes this sufficient.</li>
+    <li><em>Excretion and water balance:</em> a contractile vacuole fills with excess water and expels it.</li>
+    <li><em>Reproduction:</em> binary fission — one cell divides into two. Under harsh conditions it forms a cyst and undergoes multiple fission, producing many small cells at once.</li>
+  </ul>
+
+  <p><strong>Fungi</strong> — a mould is built from thread-like <em>hyphae</em> forming a network called a <em>mycelium</em>, with upright stalks bearing sporangia that release spores. Nutrition is saprophytic: it secretes enzymes onto dead organic matter and absorbs the digested products. Respiration is aerobic in most moulds; yeast can also respire anaerobically.</p>
+
+  <p><strong>Plantae</strong> — multicellular, cellulose cell walls, chloroplasts, autotrophic, fixed in position. Classification within the kingdom is not tested.</p>
+
+  <p><strong>Animalia</strong> — multicellular, no cell wall, heterotrophic, usually able to move. <em>Vertebrates</em> have a backbone: fish, amphibians, reptiles, birds, mammals. <em>Invertebrates</em> do not: insects, worms, molluscs, jellyfish and the rest, which make up the large majority of animal species.</p>
+
+  <div class="q">
+    <span class="qnum">Question 1</span>
+    <p>An <em>Amoeba</em> living in a freshwater pond is transferred to seawater. Predict what happens to the activity of its contractile vacuole, and explain in terms of water movement.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Its activity slows and may stop altogether.</p>
+        <p>In fresh water, the pond is more dilute than the cytoplasm, so water enters continuously by osmosis. Without a mechanism to remove it the cell would swell and burst, which is why the contractile vacuole fills and expels water repeatedly.</p>
+        <p>Seawater is more concentrated than the cytoplasm, so the gradient reverses — water now tends to leave the cell rather than enter. There is no excess water to expel, so the contractile vacuole has nothing to do. The cell's real problem becomes water loss and shrinkage instead.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="q">
+    <span class="qnum">Question 2</span>
+    <p>A newly discovered organism is multicellular, has cell walls containing chitin rather than cellulose, has no chloroplasts, and obtains nutrients by secreting enzymes onto dead leaves and absorbing the products. Assign it to a kingdom and justify each piece of evidence.</p>
+    <details><summary>Show answer</summary>
+      <div class="ans">
+        <p>Fungi.</p>
+        <p>Multicellular rules out Monera and Protista. The presence of a cell wall might suggest Plantae, but the wall is chitin rather than cellulose, and there are no chloroplasts — so it cannot photosynthesise and is not a plant. The absence of chloroplasts with a cell wall present also rules out Animalia, which have no cell wall at all.</p>
+        <p>Secreting enzymes onto dead material and absorbing the products is saprophytic nutrition, characteristic of fungi. Every piece of evidence points the same way.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="done-row"><label><input type="checkbox" data-done="class"> Mark this topic done</label></div>
+</section>
+
+<section class="papers">
+  <h2>Where to get more practice</h2>
+  <p>The syllabus names its own sources, and they differ by category. Use the right ones.</p>
+  <ul>
+    <li><strong>Years 8–9:</strong> past INJSO papers from HBCSE, at <em>olympiads.hbcse.tifr.res.in</em> under Past Papers. The 2022 and 2023 papers are the two the syllabus points to directly. They cover physics and chemistry as well, so work through the biology sections.</li>
+    <li><strong>Years 10–11:</strong> past INBO papers from the same site, and USABO Open exams. Be selective — INBO includes genetics, evolution and enzyme kinetics that are not on your syllabus. Stick to questions on the topics above.</li>
+    <li><strong>Both:</strong> Khan Academy's biology practice questions are good for checking content, though they are less demanding than the exam.</li>
+  </ul>
+  <p style="margin-top:14px; margin-bottom:0">What matters most is not how many questions you do but whether you attempt each one properly before reading the answer. Reading a worked solution feels like learning and mostly is not.</p>
+</section>
+
+</main>
+</div>
+
+<footer>Round 1 is on 14–16 November 2026. Al Yasmina British Academy science department.</footer>
+
+<script>
+(function(){
+  var KEY='huso-bio-progress-v1';
+  var boxes=Array.prototype.slice.call(document.querySelectorAll('[data-done]'));
+  var countEl=document.getElementById('count');
+  var links=Array.prototype.slice.call(document.querySelectorAll('#toclist a'));
+
+  function load(){
+    try{
+      var raw=localStorage.getItem(KEY);
+      return raw?JSON.parse(raw):{};
+    }catch(e){ return {}; }
+  }
+  function save(state){
+    try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){}
+  }
+  function paint(state){
+    var n=0;
+    boxes.forEach(function(b,i){
+      var on=!!state[b.getAttribute('data-done')];
+      b.checked=on;
+      if(on){n++;}
+      if(links[i]){ links[i].classList.toggle('done',on); }
+    });
+    countEl.textContent=n;
+  }
+
+  var state=load();
+  paint(state);
+
+  boxes.forEach(function(b){
+    b.addEventListener('change',function(){
+      state[b.getAttribute('data-done')]=b.checked;
+      save(state); paint(state);
+    });
+  });
+
+  document.getElementById('reset').addEventListener('click',function(){
+    state={}; save(state); paint(state);
+  });
+
+  var t1=document.getElementById('t1'), t2=document.getElementById('t2');
+  function setTier(one){
+    document.body.classList.toggle('tier1',one);
+    t1.setAttribute('aria-pressed',one?'true':'false');
+    t2.setAttribute('aria-pressed',one?'false':'true');
+    try{ localStorage.setItem('huso-bio-tier',one?'1':'2'); }catch(e){}
+  }
+  t1.addEventListener('click',function(){setTier(true);});
+  t2.addEventListener('click',function(){setTier(false);});
+  try{
+    if(localStorage.getItem('huso-bio-tier')==='2'){ setTier(false); }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
